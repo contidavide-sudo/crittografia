@@ -34,17 +34,90 @@
             return nome;
         }
 
-        static char[] Traslazione(char[] nome, int k)
+        static char[] Trasposizione(char[] nome, int k)
         {
             char[] vetTras = new char[nome.Length];
+
+            int indFin;
 
             for(int i = 0; i<nome.Length; i++)
             {
 
-                vetTras[i] = nome[(i + k) % k];
+                if (i + k > nome.Length - 1)
+                {
+                    indFin = k - (nome.Length - i);
+
+                    vetTras[indFin] = nome[i];
+
+                }
+                else
+                {
+                    vetTras[i + k] = nome[i];
+                }
+                
                 
             }
+            return vetTras;
         }
+
+        static char[] TrasposizioneInv(char[] nome, int k)
+        {
+            char[] vetTras = new char[nome.Length];
+
+            int indFin;
+
+            for (int i = 0; i < nome.Length; i++)
+            {
+
+                if (i - k < 0)
+                {
+                    indFin = nome.Length + (i - k);
+
+                    vetTras[indFin] = nome[i];
+
+                }
+                else
+                {
+                    vetTras[i - k] = nome[i];
+                }
+
+
+            }
+            return vetTras;
+        }
+
+        static char[] SostituzioneInv(char[] alfabeto, char[] nome, int k)
+        {
+            int indFin;
+
+            for (int i = 0; i < nome.Length; i++)
+            {
+                int indAlf = 0;
+
+                while (nome[i] != alfabeto[indAlf])
+                {
+                    indAlf++;
+
+                }
+
+                if (indAlf - k < 0)
+                {
+
+                    indFin = alfabeto.Length + (indAlf - k);
+
+                    nome[i] = alfabeto[indFin];
+
+                }
+                else
+                {
+                    nome[i] = alfabeto[indAlf - k];
+
+                }
+
+            }
+            return nome;
+        }
+
         static void Main(string[] args)
         {
             int key = 2;
@@ -58,16 +131,44 @@
 
             char[] parolaSostituzione = Sostituzione(alfa, parolaArray, key);
 
+            Console.Write("Parola con sostituzione: ");
+
             for (int i = 0; i < parolaSostituzione.Length; i++)
             {
                 Console.Write(parolaSostituzione[i]);  
             }
 
-            char[] parolaTraslazione = Traslazione(parolaSostituzione, key);
+            Console.WriteLine();
+
+            char[] parolaTraslazione = Trasposizione(parolaSostituzione, key);
+
+            Console.Write("Parola con trasposizione: ");
 
             for (int i = 0; i < parolaSostituzione.Length; i++)
             {
                 Console.Write(parolaTraslazione[i]);
+            }
+
+            Console.WriteLine();
+
+            char[] parolaTraslazioneInv = TrasposizioneInv(parolaTraslazione, key);
+
+            Console.Write("Parola con trasposizione decifrata: ");
+
+            for (int i = 0; i < parolaSostituzione.Length; i++)
+            {
+                Console.Write(parolaTraslazioneInv[i]);
+            }
+
+            Console.WriteLine();
+
+            char[] parolaSostituzioneInv = SostituzioneInv(alfa, parolaArray, key);
+
+            Console.Write("Parola con sostituzione decifrata: ");
+
+            for (int i = 0; i < parolaSostituzione.Length; i++)
+            {
+                Console.Write(parolaSostituzioneInv[i]);
             }
         }
     }
